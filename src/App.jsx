@@ -12,6 +12,20 @@ function App() {
     setInput(""); // clear input
   };
 
+  // toggle status
+  const toggleTask = (id) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+      )
+    );
+  };
+
+  // delete task
+  const deleteTask = (id) => {
+    setTasks(tasks.filter((task) => task.id !== id));
+  };
+
   return (
     <div>
       <h1>To Do List</h1>
@@ -24,7 +38,17 @@ function App() {
 
       <ul>
         {tasks.map((task) => (
-          <li key={task.id}>{task.text}</li>
+          <li key={task.id}>
+            <input
+              type="checkbox"
+              checked={task.completed}
+              onChange={() => toggleTask(task.id)}
+            />
+            <span style={{ textDecoration: task.completed ? "line-through" : "none" }}>
+              {task.text}
+            </span>
+            <button onClick={() => deleteTask(task.id)}>Удалить</button>
+          </li>
         ))}
       </ul>
     </div>
