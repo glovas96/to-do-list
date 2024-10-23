@@ -8,7 +8,11 @@ function App() {
   // state filter 
   const [filter, setFilter] = useState("all");
 
-   // add task
+  // editing state
+  const [editingId, setEditingId] = useState(null);
+  const [editingText, setEditingText] = useState("");
+
+  // add task
   const addTask = () => {
     if (input.trim() === "") return; // skip empty input
     setTasks([...tasks, { id: Date.now(), text: input, completed: false }]);
@@ -29,6 +33,23 @@ function App() {
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
+  // start editing mode
+  const startEdit = (task) => {
+    setEditingId(task.id); // "currently editing"
+    setEditingText(task.text); // show text inside input 
+  };
+
+  // save edited text
+  const saveEdit = (id) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, text: editingText } : task
+      )
+    );
+    setEditingId(null); // exit editing mode
+    setEditingText(""); // clear temporary text
+  };
+
   // filter tasks by status
   const filteredTasks = tasks.filter((task) => {
     if (filter === "active") return !task.completed;
@@ -38,6 +59,7 @@ function App() {
 
   return (
     <div>
+      {/* app title */}
       <h1>To Do List</h1>
 
       {/* input + add button */}
@@ -59,21 +81,39 @@ function App() {
       <ul>
         {filteredTasks.map((task) => (
           <li key={task.id}>
+            {/* checkbox to toggle completion */}
             <input
               type="checkbox"
               checked={task.completed}
               onChange={() => toggleTask(task.id)}
             />
-            {/* task text with line-through if done */}
-            <span style={{ textDecoration: task.completed ? "line-through" : "none" }}>
-              {task.text}
-            </span>
+
+            {/* if editing show input, else text */}
+            {editingId === task.id ? (
+              <>
+                 {/* input field for editing */}
+                <input
+                  value={editingText}
+                  onChange={(e) => setEditingText(e.target.value)}
+                />
+                <button onClick={() => saveEdit(task.id)}>Сохранить</button>
+              </>
+            ) : (
+              <>
+                {/* normal task text (line-through if completed) */}
+                <span style={{ textDecoration: task.completed ? "line-through" : "none" }}>
+                  {task.text}
+                </span>/
+                <button onClick={() => startEdit(task)}>Редактировать</button>
+              </>
+            )}
+
             {/* delete button */}
             <button onClick={() => deleteTask(task.id)}>Удалить</button>
           </li>
         ))}
       </ul>
-    </div>
+    </div >
   );
 }
 
