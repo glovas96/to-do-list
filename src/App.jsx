@@ -50,6 +50,11 @@ function App() {
     setEditingText(""); // clear temporary text
   };
 
+  // clear all completed tasks
+  const clearCompleted = () => {
+    setTasks(tasks.filter((task) => !task.completed));
+  };
+
   // filter tasks by status
   const filteredTasks = tasks.filter((task) => {
     if (filter === "active") return !task.completed;
@@ -77,6 +82,11 @@ function App() {
         <button onClick={() => setFilter("completed")}>Выполненные</button>
       </div>
 
+      {/* button to clear completed tasks */}
+      <div>
+        <button onClick={clearCompleted}>Очистить выполненные</button>
+      </div>
+
       {/* tasks list */}
       <ul>
         {filteredTasks.map((task) => (
@@ -91,7 +101,7 @@ function App() {
             {/* if editing show input, else text */}
             {editingId === task.id ? (
               <>
-                 {/* input field for editing */}
+                {/* input field for editing */}
                 <input
                   value={editingText}
                   onChange={(e) => setEditingText(e.target.value)}
@@ -103,7 +113,7 @@ function App() {
                 {/* normal task text (line-through if completed) */}
                 <span style={{ textDecoration: task.completed ? "line-through" : "none" }}>
                   {task.text}
-                </span>/
+                </span>
                 <button onClick={() => startEdit(task)}>Редактировать</button>
               </>
             )}
