@@ -12,10 +12,13 @@ function App() {
   const [editingId, setEditingId] = useState(null);
   const [editingText, setEditingText] = useState("");
 
+  // state priority input (for new task)
+  const [priorityInput, setPriorityInput] = useState("низкий");
+
   // add task
   const addTask = () => {
     if (input.trim() === "") return; // skip empty input
-    setTasks([...tasks, { id: Date.now(), text: input, completed: false }]);
+    setTasks([...tasks, { id: Date.now(), text: input, completed: false, priority: priorityInput }]);
     setInput(""); // clear input
   };
 
@@ -67,12 +70,17 @@ function App() {
       {/* app title */}
       <h1>To Do List</h1>
 
-      {/* input + add button */}
+      {/* input field + priority selector + add button */}
       <input
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder="Введите задачу"
       />
+      <select value={priorityInput} onChange={(e) => setPriorityInput(e.target.value)}>
+        <option value="низкий">Низкий</option>
+        <option value="средний">Средний</option>
+        <option value="высокий">Высокий</option>
+      </select>
       <button onClick={addTask}>Добавить</button>
 
       {/* filter buttons */}
@@ -98,21 +106,42 @@ function App() {
               onChange={() => toggleTask(task.id)}
             />
 
-            {/* if editing show input, else text */}
+            {/* editing mode vs normal mode */}
             {editingId === task.id ? (
               <>
-                {/* input field for editing */}
+                {/* input field for editing text */}
                 <input
                   value={editingText}
                   onChange={(e) => setEditingText(e.target.value)}
                 />
+                {/* priority selector for editing */}
+                <select
+                  value={task.priority}
+                  onChange={(e) =>
+                    setTasks(
+                      tasks.map((t) =>
+                        t.id === task.id ? { ...t, priority: e.target.value } : t
+                      )
+                    )
+                  }
+                >
+                  <option value="низкий">Низкий</option>
+                  <option value="средний">Средний</option>
+                  <option value="высокий">Высокий</option>
+                </select>
                 <button onClick={() => saveEdit(task.id)}>Сохранить</button>
               </>
             ) : (
               <>
-                {/* normal task text (line-through if completed) */}
-                <span style={{ textDecoration: task.completed ? "line-through" : "none" }}>
-                  {task.text}
+                {/* task text with style based on priority */}
+                <span style={{
+                  textDecoration: task.completed ? "line-through" : "none",
+                  color:
+                    task.priority === "низкий" ? "green"
+                      : task.priority === "средний" ? "orange"
+                        : "red"
+                }}>
+                  {task.text} ({task.priority})
                 </span>
                 <button onClick={() => startEdit(task)}>Редактировать</button>
               </>
