@@ -1,25 +1,35 @@
 import { useState } from "react";
 
 function App() {
-  // state tasks
+  // tasks state
   const [tasks, setTasks] = useState([]);
-  // state input
+  // input state
   const [input, setInput] = useState("");
-  // state filter 
+  // filter state
   const [filter, setFilter] = useState("all");
-
   // editing state
   const [editingId, setEditingId] = useState(null);
   const [editingText, setEditingText] = useState("");
-
-  // state priority input (for new task)
+  // priority input state (for new task)
   const [priorityInput, setPriorityInput] = useState("низкий");
+  // deadline input state
+  const [deadlineInput, setDeadlineInput] = useState("");
 
   // add task
   const addTask = () => {
     if (input.trim() === "") return; // skip empty input
-    setTasks([...tasks, { id: Date.now(), text: input, completed: false, priority: priorityInput }]);
+    setTasks([
+      ...tasks,
+      {
+        id: Date.now(),
+        text: input,
+        completed: false,
+        priority: priorityInput,
+        deadline: deadlineInput // add deadline to task
+      }
+    ]);
     setInput(""); // clear input
+    setDeadlineInput(""); // reset deadline input after adding
   };
 
   // toggle task status
@@ -65,22 +75,39 @@ function App() {
     return true;
   });
 
+  // function to check if deadline is expired
+  const isExpired = (deadline) => {
+    if (!deadline) return false; // no deadline means not expired
+    return new Date(deadline) < new Date();
+  };
+
   return (
     <div>
       {/* app title */}
       <h1>To Do List</h1>
 
-      {/* input field + priority selector + add button */}
+      {/* input task field */}
       <input
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder="Введите задачу"
       />
+
+      {/* task priority */}
       <select value={priorityInput} onChange={(e) => setPriorityInput(e.target.value)}>
         <option value="низкий">Низкий</option>
         <option value="средний">Средний</option>
         <option value="высокий">Высокий</option>
       </select>
+
+      {/* deadline input field */}
+      <input
+        type="datetime-local"
+        value={deadlineInput}
+        onChange={(e) => setDeadlineInput(e.target.value)}
+      />
+
+      {/* add task button */}
       <button onClick={addTask}>Добавить</button>
 
       {/* filter buttons */}
@@ -99,6 +126,7 @@ function App() {
       <ul>
         {filteredTasks.map((task) => (
           <li key={task.id}>
+
             {/* checkbox to toggle completion */}
             <input
               type="checkbox"
@@ -114,6 +142,7 @@ function App() {
                   value={editingText}
                   onChange={(e) => setEditingText(e.target.value)}
                 />
+
                 {/* priority selector for editing */}
                 <select
                   value={task.priority}
@@ -136,12 +165,21 @@ function App() {
                 {/* task text with style based on priority */}
                 <span style={{
                   textDecoration: task.completed ? "line-through" : "none",
-                  color:
-                    task.priority === "низкий" ? "green"
-                      : task.priority === "средний" ? "orange"
-                        : "red"
+                  color: isExpired(task.deadline) // expired tasks are red
+                    ? "red"
+                    : task.priority === "средний"
+                      ? "yellow"
+                      : task.priority === "высокий"
+                        ? "orange"
+                        : "black"
                 }}>
+                  {/* show task */}
                   {task.text} ({task.priority})
+
+                   {/* show deadline if exists */}
+                   {task.deadline && (
+                    <> — deadline: {new Date(task.deadline).toLocaleString()}</>
+                  )}
                 </span>
                 <button onClick={() => startEdit(task)}>Редактировать</button>
               </>
