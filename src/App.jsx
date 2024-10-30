@@ -14,6 +14,8 @@ function App() {
   const [priorityInput, setPriorityInput] = useState("низкий");
   // deadline input state
   const [deadlineInput, setDeadlineInput] = useState("");
+  // search input state
+  const [searchQuery, setSearchQuery] = useState("");
 
   // add task
   const addTask = () => {
@@ -68,11 +70,24 @@ function App() {
     setTasks(tasks.filter((task) => !task.completed));
   };
 
-  // filter tasks by status
+  // filter by status + search query
   const filteredTasks = tasks.filter((task) => {
-    if (filter === "active") return !task.completed;
-    if (filter === "completed") return task.completed;
-    return true;
+
+    // check status
+    const matchesFilter =
+      filter === "active"
+        ? !task.completed
+        : filter === "completed"
+          ? task.completed
+          : true;
+
+    // check search
+    const matchesSearch = task.text
+      .toLowerCase() 
+      .includes(searchQuery.toLowerCase());
+      
+    // both must match
+    return matchesFilter && matchesSearch;
   });
 
   // function to check if deadline is expired
@@ -120,6 +135,16 @@ function App() {
       {/* button to clear completed tasks */}
       <div>
         <button onClick={clearCompleted}>Очистить выполненные</button>
+      </div>
+
+      {/* search input */}
+      <div>
+        <input
+          type="text"
+          placeholder="Поиск задач..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
       </div>
 
       {/* tasks list */}
@@ -176,8 +201,8 @@ function App() {
                   {/* show task */}
                   {task.text} ({task.priority})
 
-                   {/* show deadline if exists */}
-                   {task.deadline && (
+                  {/* show deadline if exists */}
+                  {task.deadline && (
                     <> — deadline: {new Date(task.deadline).toLocaleString()}</>
                   )}
                 </span>
