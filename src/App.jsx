@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
   // tasks state
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState(() => {
+    const saved = localStorage.getItem("tasks");
+    return saved ? JSON.parse(saved) : [];
+  });
   // input state
   const [input, setInput] = useState("");
   // filter state
@@ -16,6 +19,11 @@ function App() {
   const [deadlineInput, setDeadlineInput] = useState("");
   // search input state
   const [searchQuery, setSearchQuery] = useState("");
+
+  // save tasks to LocalStorage 
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
   // add task
   const addTask = () => {
@@ -83,9 +91,9 @@ function App() {
 
     // check search
     const matchesSearch = task.text
-      .toLowerCase() 
+      .toLowerCase()
       .includes(searchQuery.toLowerCase());
-      
+
     // both must match
     return matchesFilter && matchesSearch;
   });
