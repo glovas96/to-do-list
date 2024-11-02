@@ -25,6 +25,11 @@ function App() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
+  // counters
+  const totalCount = tasks.length;
+  const activeCount = tasks.filter((t) => !t.completed).length;
+  const completedCount = tasks.filter((t) => t.completed).length;
+
   // add task
   const addTask = () => {
     if (input.trim() === "") return; // skip empty input
@@ -108,6 +113,13 @@ function App() {
     <div>
       {/* app title */}
       <h1>To Do List</h1>
+
+      {/* counters */}
+      <div>
+        <p>Total: {totalCount}</p>
+        <p>Active: {activeCount}</p>
+        <p>Completed: {completedCount}</p>
+      </div>
 
       {/* input task field */}
       <input
