@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 
+
 function App() {
   // tasks state
   const [tasks, setTasks] = useState(() => {
@@ -21,7 +22,7 @@ function App() {
   // search input state
   const [searchQuery, setSearchQuery] = useState("");
 
-  // save tasks to LocalStorage 
+  // save tasks to LocalStorage
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
@@ -33,7 +34,7 @@ function App() {
 
   // add task
   const addTask = () => {
-    if (input.trim() === "") return; // skip empty input
+    if (input.trim() === "") return;
     setTasks([
       ...tasks,
       {
@@ -41,11 +42,11 @@ function App() {
         text: input,
         completed: false,
         priority: priorityInput,
-        deadline: deadlineInput // add deadline to task
+        deadline: deadlineInput
       }
     ]);
-    setInput(""); // clear input
-    setDeadlineInput(""); // reset deadline input after adding
+    setInput("");
+    setDeadlineInput("");
   };
 
   // toggle task status
@@ -64,21 +65,23 @@ function App() {
 
   // start editing mode
   const startEdit = (task) => {
-    setEditingId(task.id); // "currently editing"
-    setEditingText(task.text); // show text inside input
-    setEditingDeadline(task.deadline || ""); // set deadline or empty
+    setEditingId(task.id);
+    setEditingText(task.text);
+    setEditingDeadline(task.deadline || "");
   };
 
   // save edited text
   const saveEdit = (id) => {
     setTasks(
       tasks.map((task) =>
-        task.id === id ? { ...task, text: editingText, deadline: editingDeadline } : task
+        task.id === id
+          ? { ...task, text: editingText, deadline: editingDeadline }
+          : task
       )
     );
-    setEditingId(null); // exit editing mode
-    setEditingText(""); // clear temporary text
-    setEditingDeadline(""); // reset deadline
+    setEditingId(null);
+    setEditingText("");
+    setEditingDeadline("");
   };
 
   // clear all completed tasks
@@ -88,8 +91,6 @@ function App() {
 
   // filter by status + search query + priority
   const filteredTasks = tasks.filter((task) => {
-
-    // check status
     const matchesFilter =
       filter === "active"
         ? !task.completed
@@ -97,170 +98,178 @@ function App() {
           ? task.completed
           : true;
 
-    // check search
     const matchesSearch = task.text
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
 
-    // check priority
     const matchesPriority =
       priorityFilter === "all" ? true : task.priority === priorityFilter;
 
-    // all must match
     return matchesFilter && matchesSearch && matchesPriority;
   });
 
   // function to check if deadline is expired
   const isExpired = (deadline) => {
-    if (!deadline) return false; // no deadline means not expired
+    if (!deadline) return false;
     return new Date(deadline) < new Date();
   };
 
   return (
     <div className="container">
-      {/* Column 1: input for new tasks */}
+      {/* column 1 */}
       <div className="column">
-        {/* app title */}
-        <h1>To Do List</h1>
+        {/* task */}
+        <div className="task">
+          <textarea
+            className="textarea"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="enter task"
+          />
 
-        {/* input task field */}
-        <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="enter task"
-        />
+          <input
+            className="date-input"
+            type="datetime-local"
+            value={deadlineInput}
+            onChange={(e) => setDeadlineInput(e.target.value)}
+          />
 
-        {/* task priority */}
-        <div>
-          <button onClick={() => setPriorityInput("low")}> low </button>
+          <div className="buttons-priority">
+            <button className="button" onClick={() => setPriorityInput('low')}>low</button>
+            <button className="button" onClick={() => setPriorityInput('medium')}>medium</button>
+            <button className="button" onClick={() => setPriorityInput('high')}>high</button>
+          </div>
 
-          <button onClick={() => setPriorityInput("medium")}> medium </button>
-
-          <button onClick={() => setPriorityInput("high")}> high </button>
+          <button className="button-add" onClick={addTask}>add</button>
         </div>
 
-        {/* deadline input field */}
-        <input
-          type="datetime-local"
-          value={deadlineInput}
-          onChange={(e) => setDeadlineInput(e.target.value)}
-        />
+        {/* filter */}
+        <div className="filter">
+          <div className="buttons-status">
+            <button className="button" onClick={() => setFilter("all")}>all</button>
+            <button className="button" onClick={() => setFilter("active")}>active</button>
+            <button className="button" onClick={() => setFilter("completed")}>done</button>
+          </div>
 
-        {/* add task button */}
-        <div>
-          <button onClick={addTask}>add</button>
+          <div className="buttons-priority">
+            <button onClick={() => setPriorityFilter("all")}>all</button>
+            <button onClick={() => setPriorityFilter("low")}>low</button>
+            <button onClick={() => setPriorityFilter("medium")}>medium</button>
+            <button onClick={() => setPriorityFilter("high")}>high</button>
+          </div>
+
+          <input
+            type="text"
+            className="search-input"
+            placeholder="search task"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </div>
       </div>
 
-      {/* Column 2: filters, search */}
+      {/* column 2 */}
       <div className="column">
-        {/* counters */}
-        <div>
-          <span>Total: {totalCount}</span>
-          <span>Active: {activeCount}</span>
-          <span>Completed: {completedCount}</span>
+        {/* counter list*/}
+        <div className="counter-list">
+          <span className="counter-item">total: {totalCount}</span>
+          <span className="counter-item">active: {activeCount}</span>
+          <span className="counter-item">completed: {completedCount}</span>
         </div>
 
-        {/* filter buttons */}
-        <div>
-          <button onClick={() => setFilter("all")}>all</button>
-          <button onClick={() => setFilter("active")}>active</button>
-          <button onClick={() => setFilter("completed")}>done</button>
-        </div>
+        <button className="button-clear" onClick={clearCompleted}>delete completed</button>
 
-        {/* priority filter buttons */}
-        <div>
-          <button onClick={() => setPriorityFilter("all")}>all</button>
-          <button onClick={() => setPriorityFilter("low")}>low</button>
-          <button onClick={() => setPriorityFilter("medium")}>medium</button>
-          <button onClick={() => setPriorityFilter("high")}>high</button>
-        </div>
 
-        {/* search input */}
-        <input
-          type="text"
-          placeholder="search tasks..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-      </div>
-
-      {/* Column 3: tasks list */}
-      <div className="column">
-
-        {/* button to clear completed tasks */}
-        <div>
-          <button onClick={clearCompleted}>delete completed</button>
-        </div>
-
-        <ul>
+        {/* task list */}
+        <ul className="task-list">
           {filteredTasks.map((task) => (
-            <li key={task.id}>
+            <li className="item" key={task.id}>
               {editingId !== task.id ? (
-                <div>
-                  {/* normal mode */}
-                  {/* task text */}
-                  <div>
-                    <span style={{ textDecoration: task.completed ? "line-through" : "none" }}>
-                      {task.text}
-                    </span>
+                <>
+                  {/* item-title */}
+                  <p className="item-title">{task.text}</p>
+                  {/* item-header */}
+                  <div className="item-header">
+                    {/* item-label */}
+                    <span className="item-label"> {task.priority}</span>
+                    {/* item-deadline */}
+                    {task.deadline && (
+                      <span className="item-deadline">
+                        {new Date(task.deadline).toLocaleString()}
+                      </span>
+                    )}
                   </div>
 
-                  {/* show deadline if exists */}
-                  {task.deadline && (
-                    <div>
-                      <small>{new Date(task.deadline).toLocaleString()}</small>
-                    </div>
-                  )}
-
-                  {/* buttons */}
-                  <div>
-                    <button onClick={() => toggleTask(task.id)}>done</button>
-                    <button onClick={() => startEdit(task)}>edit</button>
-                    <button onClick={() => deleteTask(task.id)}>delete</button>
+                  <div className="buttons-action">
+                    <button className="button-action" onClick={() => toggleTask(task.id)}>done</button>
+                    <button className="button-action" onClick={() => startEdit(task)}>edit</button>
+                    <button className="button-action" onClick={() => deleteTask(task.id)}>delete</button>
                   </div>
-                </div>
+                </>
               ) : (
                 <>
                   {/* editing mode */}
-                  {/* input field for editing */}
-                  <input
+                  <textarea
+                    className="textarea"
                     value={editingText}
                     onChange={(e) => setEditingText(e.target.value)}
                   />
 
-                  {/* priority button for editing */}
-                  <div>
-                    <button onClick={() =>
-                      setTasks(tasks.map(t =>
-                        t.id === task.id ? { ...t, priority: "low" } : t
-                      ))
-                    }>low</button>
-
-                    <button onClick={() =>
-                      setTasks(tasks.map(t =>
-                        t.id === task.id ? { ...t, priority: "medium" } : t
-                      ))
-                    }>medium</button>
-
-                    <button onClick={() =>
-                      setTasks(tasks.map(t =>
-                        t.id === task.id ? { ...t, priority: "high" } : t
-                      ))
-                    }>high</button>
-                  </div>
-
-                  {/* deadline input for editing */}
                   <input
+                    className="date-input"
                     type="datetime-local"
                     value={editingDeadline}
                     onChange={(e) => setEditingDeadline(e.target.value)}
                   />
 
-                  {/* save button */}
-                  <div>
-                    <button onClick={() => saveEdit(task.id)}>save</button>
+                  <div className="buttons-priority">
+                    <button
+                      className="button"
+                      onClick={() =>
+                        setTasks(
+                          tasks.map(t =>
+                            t.id === task.id
+                              ? { ...t, priority: "low" }
+                              : t
+                          )
+                        )
+                      }
+                    >
+                      Low
+                    </button>
+
+                    <button
+                      className="button"
+                      onClick={() =>
+                        setTasks(
+                          tasks.map(t =>
+                            t.id === task.id
+                              ? { ...t, priority: "medium" }
+                              : t
+                          )
+                        )
+                      }
+                    >
+                      Medium
+                    </button>
+
+                    <button
+                      className="button"
+                      onClick={() =>
+                        setTasks(
+                          tasks.map(t =>
+                            t.id === task.id
+                              ? { ...t, priority: "high" }
+                              : t
+                          )
+                        )
+                      }
+                    >
+                      High
+                    </button>
                   </div>
+
+                  <button className="button-save" onClick={() => saveEdit(task.id)}>save</button>
                 </>
               )}
             </li>
@@ -271,4 +280,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
