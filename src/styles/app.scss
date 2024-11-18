@@ -10,6 +10,8 @@ body {
 
 .container {
   display: flex;
+  max-width: 960px;
+  margin: 0 auto;
 }
 
 .column {
@@ -23,7 +25,28 @@ body {
   gap: 0.5rem;
   padding: 1rem;
   border-radius: 8px;
-  border: 1px solid #ddd;;
+  border: 1px solid #ddd;
+}
+
+.textarea {
+  display: block;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  min-height: 100px;
+  resize: vertical;
+
+}
+
+.date-input {
+  display: block;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 1rem;
+  border: 1px solid #ddd;
 }
 
 .filter {
@@ -32,7 +55,7 @@ body {
   gap: 0.5rem;
   padding: 1rem;
   border-radius: 8px;
-  border: 1px solid #ddd;;
+  border: 1px solid #ddd;
 }
 
 .counter {
@@ -41,7 +64,7 @@ body {
   gap: 0.5rem;
   padding: 1rem;
   border-radius: 8px;
-  border: 1px solid #ddd;;
+  border: 1px solid #ddd;
 }
 
 .task-list {
@@ -57,5 +80,5 @@ body {
   gap: 0.5rem;
   padding: 1rem;
   border-radius: 8px;
-  border: 1px solid #ddd;;
+  border: 1px solid #ddd;
 }
