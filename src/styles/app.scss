@@ -49,12 +49,31 @@ body {
   border: 1px solid #ddd;
 }
 
+.buttons-priority {
+  display: flex;
+  gap: 0.5rem;
+}
+
 .filter {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   padding: 1rem;
   border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.buttons-status {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.search-input {
+  display: block;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 1rem;
   border: 1px solid #ddd;
 }
 
