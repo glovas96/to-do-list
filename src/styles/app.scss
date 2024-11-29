@@ -86,6 +86,16 @@ body {
   border: 1px solid #ddd;
 }
 
+.counter-list {
+  display: flex;
+  justify-content: space-around;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid #ddd;
+}
+
 .task-list {
   display: flex;
   flex-direction: column;
@@ -98,6 +108,17 @@ body {
   flex-direction: column;
   gap: 0.5rem;
   padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.item-title {
+  display: inline-block;
+  font-size: 1rem;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  background: #fff;
+  padding: 0.5rem 1rem;
   border-radius: 8px;
   border: 1px solid #ddd;
 }
