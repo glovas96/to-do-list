@@ -170,15 +170,16 @@ function App() {
 
       {/* column 2 */}
       <div className="column">
-        {/* counter list*/}
-        <div className="counter-list">
-          <span className="counter-item">total: {totalCount}</span>
-          <span className="counter-item">active: {activeCount}</span>
-          <span className="counter-item">completed: {completedCount}</span>
+        {/* counter*/}
+        <div className="counter">
+          <div className="counter-list">
+            <span className="counter-item">total: {totalCount}</span>
+            <span className="counter-item">active: {activeCount}</span>
+            <span className="counter-item">completed: {completedCount}</span>
+          </div>
+
+          <button className="button-clear" onClick={clearCompleted}>delete completed</button>
         </div>
-
-        <button className="button-clear" onClick={clearCompleted}>delete completed</button>
-
 
         {/* task list */}
         <ul className="task-list">
