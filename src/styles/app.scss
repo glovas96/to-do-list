@@ -1,3 +1,4 @@
+// base
 * {
   box-sizing: border-box;
   margin: 0;
@@ -19,6 +20,7 @@ body {
   padding: 1rem;
 }
 
+// task
 .task {
   display: flex;
   flex-direction: column;
@@ -55,6 +57,7 @@ body {
   gap: 0.5rem;
 }
 
+// filter
 .filter {
   display: flex;
   flex-direction: column;
@@ -79,6 +82,7 @@ body {
   border: 1px solid #ddd;
 }
 
+// counter
 .counter {
   display: flex;
   flex-direction: column;
@@ -116,6 +120,7 @@ body {
   list-style: none;
 }
 
+// item
 .item {
   display: flex;
   flex-direction: column;
@@ -163,6 +168,28 @@ body {
 }
 
 .buttons-action {
-    display: flex;
-    gap: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
 }
+
+// button
+.button {
+  flex: 1;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 0.9rem;
+  border: 1px solid #ddd;
+}
+
+.button-main {
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  background: #007bff;
+  font-size: 1rem;
+  color: #fff;
+  border: 1px solid #ddd;
+}
+

@@ -140,7 +140,7 @@ function App() {
             <button className="button" onClick={() => setPriorityInput('high')}>high</button>
           </div>
 
-          <button className="button-add" onClick={addTask}>add</button>
+          <button className="button-main" onClick={addTask}>add</button>
         </div>
 
         {/* filter */}
@@ -152,10 +152,10 @@ function App() {
           </div>
 
           <div className="buttons-priority">
-            <button onClick={() => setPriorityFilter("all")}>all</button>
-            <button onClick={() => setPriorityFilter("low")}>low</button>
-            <button onClick={() => setPriorityFilter("medium")}>medium</button>
-            <button onClick={() => setPriorityFilter("high")}>high</button>
+            <button className="button" onClick={() => setPriorityFilter("all")}>all</button>
+            <button className="button" onClick={() => setPriorityFilter("low")}>low</button>
+            <button className="button" onClick={() => setPriorityFilter("medium")}>medium</button>
+            <button className="button" onClick={() => setPriorityFilter("high")}>high</button>
           </div>
 
           <input
@@ -178,7 +178,7 @@ function App() {
             <span className="counter-item">completed: {completedCount}</span>
           </div>
 
-          <button className="button-clear" onClick={clearCompleted}>delete completed</button>
+          <button className="button-main" onClick={clearCompleted}>delete completed</button>
         </div>
 
         {/* task list */}
@@ -202,9 +202,9 @@ function App() {
                   </div>
 
                   <div className="buttons-action">
-                    <button className="button-action" onClick={() => toggleTask(task.id)}>done</button>
-                    <button className="button-action" onClick={() => startEdit(task)}>edit</button>
-                    <button className="button-action" onClick={() => deleteTask(task.id)}>delete</button>
+                    <button className="button" onClick={() => toggleTask(task.id)}>done</button>
+                    <button className="button" onClick={() => startEdit(task)}>edit</button>
+                    <button className="button" onClick={() => deleteTask(task.id)}>delete</button>
                   </div>
                 </>
               ) : (
@@ -270,7 +270,7 @@ function App() {
                     </button>
                   </div>
 
-                  <button className="button-save" onClick={() => saveEdit(task.id)}>save</button>
+                  <button className="button-main" onClick={() => saveEdit(task.id)}>save</button>
                 </>
               )}
             </li>
