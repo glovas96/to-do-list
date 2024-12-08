@@ -1,3 +1,5 @@
+@use "sass:color";
+
 // base
 * {
   box-sizing: border-box;
@@ -183,6 +185,24 @@ body {
   border: 1px solid #ddd;
 }
 
+.button:hover {
+  border-color: #007bff;
+}
+
+.button:active {
+  transform: scale(0.97);
+}
+
+.button-active {
+  flex: 1;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 0.9rem;
+  border: 2px solid #007bff;
+}
+
 .button-main {
   cursor: pointer;
   padding: 0.5rem;
@@ -192,4 +212,14 @@ body {
   color: #fff;
   border: 1px solid #ddd;
 }
+
+.button-main:hover {
+  background: color.scale(#007bff, $lightness: -20%);
+}
+
+.button-main:active {
+  transform: scale(0.97);
+}
+
+
 

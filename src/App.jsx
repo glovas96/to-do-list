@@ -135,9 +135,24 @@ function App() {
           />
 
           <div className="buttons-priority">
-            <button className="button" onClick={() => setPriorityInput('low')}>low</button>
-            <button className="button" onClick={() => setPriorityInput('medium')}>medium</button>
-            <button className="button" onClick={() => setPriorityInput('high')}>high</button>
+            <button
+              className={`button ${priorityInput === "low" ? "button-active" : ""}`}
+              onClick={() => setPriorityInput("low")}
+            >
+              low
+            </button>
+            <button
+              className={`button ${priorityInput === "medium" ? "button-active" : ""}`}
+              onClick={() => setPriorityInput("medium")}
+            >
+              medium
+            </button>
+            <button
+              className={`button ${priorityInput === "high" ? "button-active" : ""}`}
+              onClick={() => setPriorityInput("high")}
+            >
+              high
+            </button>
           </div>
 
           <button className="button-main" onClick={addTask}>add</button>
@@ -146,16 +161,51 @@ function App() {
         {/* filter */}
         <div className="filter">
           <div className="buttons-status">
-            <button className="button" onClick={() => setFilter("all")}>all</button>
-            <button className="button" onClick={() => setFilter("active")}>active</button>
-            <button className="button" onClick={() => setFilter("completed")}>done</button>
+            <button
+              className={`button ${filter === "all" ? "button-active" : ""}`}
+              onClick={() => setFilter("all")}
+            >
+              all
+            </button>
+            <button
+              className={`button ${filter === "active" ? "button-active" : ""}`}
+              onClick={() => setFilter("active")}
+            >
+              active
+            </button>
+            <button
+              className={`button ${filter === "completed" ? "button-active" : ""}`}
+              onClick={() => setFilter("completed")}
+            >
+              done
+            </button>
           </div>
 
           <div className="buttons-priority">
-            <button className="button" onClick={() => setPriorityFilter("all")}>all</button>
-            <button className="button" onClick={() => setPriorityFilter("low")}>low</button>
-            <button className="button" onClick={() => setPriorityFilter("medium")}>medium</button>
-            <button className="button" onClick={() => setPriorityFilter("high")}>high</button>
+            <button
+              className={`button ${priorityFilter === "all" ? "button-active" : ""}`}
+              onClick={() => setPriorityFilter("all")}
+            >
+              all
+            </button>
+            <button
+              className={`button ${priorityFilter === "low" ? "button-active" : ""}`}
+              onClick={() => setPriorityFilter("low")}
+            >
+              low
+            </button>
+            <button
+              className={`button ${priorityFilter === "medium" ? "button-active" : ""}`}
+              onClick={() => setPriorityFilter("medium")}
+            >
+              medium
+            </button>
+            <button
+              className={`button ${priorityFilter === "high" ? "button-active" : ""}`}
+              onClick={() => setPriorityFilter("high")}
+            >
+              high
+            </button>
           </div>
 
           <input
@@ -225,48 +275,36 @@ function App() {
 
                   <div className="buttons-priority">
                     <button
-                      className="button"
+                      className={`button ${task.priority === "low" ? "button-active" : ""}`}
                       onClick={() =>
-                        setTasks(
-                          tasks.map(t =>
-                            t.id === task.id
-                              ? { ...t, priority: "low" }
-                              : t
-                          )
-                        )
+                        setTasks(tasks.map(t =>
+                          t.id === task.id ? { ...t, priority: "low" } : t
+                        ))
                       }
                     >
-                      Low
+                      low
                     </button>
 
                     <button
-                      className="button"
+                      className={`button ${task.priority === "medium" ? "button-active" : ""}`}
                       onClick={() =>
-                        setTasks(
-                          tasks.map(t =>
-                            t.id === task.id
-                              ? { ...t, priority: "medium" }
-                              : t
-                          )
-                        )
+                        setTasks(tasks.map(t =>
+                          t.id === task.id ? { ...t, priority: "medium" } : t
+                        ))
                       }
                     >
-                      Medium
+                      medium
                     </button>
 
                     <button
-                      className="button"
+                      className={`button ${task.priority === "high" ? "button-active" : ""}`}
                       onClick={() =>
-                        setTasks(
-                          tasks.map(t =>
-                            t.id === task.id
-                              ? { ...t, priority: "high" }
-                              : t
-                          )
-                        )
+                        setTasks(tasks.map(t =>
+                          t.id === task.id ? { ...t, priority: "high" } : t
+                        ))
                       }
                     >
-                      High
+                      high
                     </button>
                   </div>
 
