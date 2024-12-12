@@ -45,6 +45,15 @@ body {
   resize: vertical;
 }
 
+.textarea:hover {
+  border-color: #007bff;
+}
+
+.textarea:focus {
+  outline: none;
+  border: 2px solid #007bff;
+}
+
 .date-input {
   display: block;
   padding: 0.5rem 1rem;
@@ -52,6 +61,15 @@ body {
   background: #fff;
   font-size: 1rem;
   border: 1px solid #ddd;
+}
+
+.date-input:hover {
+  border-color: #007bff;
+}
+
+.date-input:focus {
+  outline: none;
+  border: 2px solid #007bff;
 }
 
 .buttons-priority {
@@ -82,6 +100,15 @@ body {
   background: #fff;
   font-size: 1rem;
   border: 1px solid #ddd;
+}
+
+.search-input:hover {
+  border-color: #007bff;
+}
+
+.search-input:focus {
+  outline: none;
+  border: 2px solid #007bff;
 }
 
 // counter
