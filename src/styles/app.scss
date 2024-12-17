@@ -160,6 +160,11 @@ body {
   border: 1px solid #ddd;
 }
 
+.item-completed {
+  background: #e8e8e88d;
+  color: #666;
+}
+
 .item-title {
   display: inline-block;
   font-size: 1rem;
@@ -177,13 +182,37 @@ body {
   gap: 0.5rem;
 }
 
-.item-label {
+.item-label-low {
   display: inline-block;
   font-size: 0.85rem;
   padding: 0.2rem 0.6rem;
   border-radius: 6px;
   background: #fff;
   border: 1px solid #ddd;
+  background: #e6f4ea;
+  color: #2e7d32;
+}
+
+.item-label-medium {
+  display: inline-block;
+  font-size: 0.85rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  background: #fff;
+  border: 1px solid #ddd;
+  background: #fff8e1;
+  color: #f9a825;
+}
+
+.item-label-high {
+  display: inline-block;
+  font-size: 0.85rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  background: #fff;
+  border: 1px solid #ddd;
+  background: #ffebee;
+  color: #c62828;
 }
 
 .item-deadline {
@@ -194,6 +223,11 @@ body {
   border-radius: 6px;
   background: #fff;
   border: 1px solid #ddd;
+}
+
+.item-deadline-expired {
+  background: #ffebee;
+  color: #c62828;
 }
 
 .buttons-action {

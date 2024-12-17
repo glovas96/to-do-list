@@ -234,7 +234,10 @@ function App() {
         {/* task list */}
         <ul className="task-list">
           {filteredTasks.map((task) => (
-            <li className="item" key={task.id}>
+            <li
+              className={`item ${task.completed ? "item-completed" : ""}`}
+              key={task.id}
+            >
               {editingId !== task.id ? (
                 <>
                   {/* item-title */}
@@ -242,10 +245,14 @@ function App() {
                   {/* item-header */}
                   <div className="item-header">
                     {/* item-label */}
-                    <span className="item-label"> {task.priority}</span>
+                    <span className={`item-label-${task.priority}`}>
+                      {task.priority}
+                    </span>
                     {/* item-deadline */}
                     {task.deadline && (
-                      <span className="item-deadline">
+                      <span
+                        className={`item-deadline ${isExpired(task.deadline) ? "item-deadline-expired" : ""}`}
+                      >
                         {new Date(task.deadline).toLocaleString()}
                       </span>
                     )}
