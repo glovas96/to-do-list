@@ -119,89 +119,93 @@ function App() {
       {/* column 1 */}
       <div className="column">
         {/* task */}
-        <div className="task">
+        <div className="task-form">
           <textarea
-            className="textarea"
+            className="task-form__textarea"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="enter task"
           />
 
           <input
-            className="date-input"
+            className="task-form__date-input"
             type="datetime-local"
             value={deadlineInput}
             onChange={(e) => setDeadlineInput(e.target.value)}
           />
 
-          <div className="buttons-priority">
-            <button
-              className={`button ${priorityInput === "low" ? "button-active" : ""}`}
-              onClick={() => setPriorityInput("low")}
-            >
-              low
-            </button>
-            <button
-              className={`button ${priorityInput === "medium" ? "button-active" : ""}`}
-              onClick={() => setPriorityInput("medium")}
-            >
-              medium
-            </button>
-            <button
-              className={`button ${priorityInput === "high" ? "button-active" : ""}`}
-              onClick={() => setPriorityInput("high")}
-            >
-              high
+          <div className="task-form__buttons-container">
+            <div className="task-form__buttons">
+              <button
+                className={`button ${priorityInput === "low" ? "button--active" : ""}`}
+                onClick={() => setPriorityInput("low")}
+              >
+                low
+              </button>
+              <button
+                className={`button ${priorityInput === "medium" ? "button--active" : ""}`}
+                onClick={() => setPriorityInput("medium")}
+              >
+                medium
+              </button>
+              <button
+                className={`button ${priorityInput === "high" ? "button--active" : ""}`}
+                onClick={() => setPriorityInput("high")}
+              >
+                high
+              </button>
+            </div>
+
+            <button className="button-main" onClick={addTask}>
+              add
             </button>
           </div>
-
-          <button className="button-main" onClick={addTask}>add</button>
         </div>
 
         {/* filter */}
         <div className="filter">
-          <div className="buttons-status">
+          <div className="filter__buttons filter__buttons--status">
             <button
-              className={`button ${filter === "all" ? "button-active" : ""}`}
+              className={`button ${filter === "all" ? "button--active" : ""}`}
               onClick={() => setFilter("all")}
             >
               all
             </button>
             <button
-              className={`button ${filter === "active" ? "button-active" : ""}`}
+              className={`button ${filter === "active" ? "button--active" : ""}`}
               onClick={() => setFilter("active")}
             >
               active
             </button>
             <button
-              className={`button ${filter === "completed" ? "button-active" : ""}`}
+              className={`button ${filter === "completed" ? "button--active" : ""}`}
               onClick={() => setFilter("completed")}
             >
               done
             </button>
           </div>
 
-          <div className="buttons-priority">
+          <div className="filter__buttons filter__buttons--priority">
             <button
-              className={`button ${priorityFilter === "all" ? "button-active" : ""}`}
+              className={`button ${priorityFilter === "all" ? "button--active" : ""}`}
               onClick={() => setPriorityFilter("all")}
             >
               all
             </button>
             <button
-              className={`button ${priorityFilter === "low" ? "button-active" : ""}`}
+              className={`button ${priorityFilter === "low" ? "button--active" : ""}`}
               onClick={() => setPriorityFilter("low")}
             >
               low
             </button>
             <button
-              className={`button ${priorityFilter === "medium" ? "button-active" : ""}`}
+              className={`button ${priorityFilter === "medium" ? "button--active" : ""}`}
               onClick={() => setPriorityFilter("medium")}
             >
               medium
             </button>
             <button
-              className={`button ${priorityFilter === "high" ? "button-active" : ""}`}
+              className={`button ${priorityFilter === "high" ? "button--active" : ""}`}
               onClick={() => setPriorityFilter("high")}
             >
               high
@@ -210,7 +214,7 @@ function App() {
 
           <input
             type="text"
-            className="search-input"
+            className="filter__search-input"
             placeholder="search task"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -220,109 +224,130 @@ function App() {
 
       {/* column 2 */}
       <div className="column">
-        {/* counter*/}
+        {/* counter */}
         <div className="counter">
-          <div className="counter-list">
-            <span className="counter-item">total: {totalCount}</span>
-            <span className="counter-item">active: {activeCount}</span>
-            <span className="counter-item">completed: {completedCount}</span>
+          <div className="counter__list">
+            <span className="counter__item">total: {totalCount}</span>
+            <span className="counter__item">active: {activeCount}</span>
+            <span className="counter__item">completed: {completedCount}</span>
           </div>
 
-          <button className="button-main" onClick={clearCompleted}>delete completed</button>
+          <button className="button-main" onClick={clearCompleted}>
+            delete completed
+          </button>
         </div>
 
         {/* task list */}
         <ul className="task-list">
           {filteredTasks.map((task) => (
             <li
-              className={`item ${task.completed ? "item-completed" : ""}`}
+              className={`task-item ${task.completed ? "task-item--completed" : ""}`}
               key={task.id}
             >
               {editingId !== task.id ? (
                 <>
-                  {/* item-title */}
-                  <p className="item-title">{task.text}</p>
-                  {/* item-header */}
-                  <div className="item-header">
-                    {/* item-label */}
-                    <span className={`item-label-${task.priority}`}>
+                  <p className="task-item__title">{task.text}</p>
+
+                  <div className="task-item__header">
+                    <span className={`task-item__label task-item__label--${task.priority}`}>
                       {task.priority}
                     </span>
-                    {/* item-deadline */}
+
                     {task.deadline && (
                       <span
-                        className={`item-deadline ${isExpired(task.deadline) ? "item-deadline-expired" : ""}`}
+                        className={`task-item__deadline ${isExpired(task.deadline) ? "task-item__deadline--expired" : ""}`}
                       >
                         {new Date(task.deadline).toLocaleString()}
                       </span>
                     )}
                   </div>
 
-                  <div className="buttons-action">
-                    <button className="button" onClick={() => toggleTask(task.id)}>done</button>
-                    <button className="button" onClick={() => startEdit(task)}>edit</button>
-                    <button className="button" onClick={() => deleteTask(task.id)}>delete</button>
+                  <div className="task-item__buttons">
+                    <button
+                      className="button"
+                      onClick={() => toggleTask(task.id)}
+                    >
+                      done
+                    </button>
+                    <button
+                      className="button"
+                      onClick={() => startEdit(task)}
+                    >
+                      edit
+                    </button>
+                    <button
+                      className="button"
+                      onClick={() => deleteTask(task.id)}
+                    >
+                      delete
+                    </button>
                   </div>
                 </>
               ) : (
                 <>
-                  {/* editing mode */}
                   <textarea
-                    className="textarea"
+                    className="task-form__textarea"
                     value={editingText}
                     onChange={(e) => setEditingText(e.target.value)}
                   />
 
                   <input
-                    className="date-input"
+                    className="task-form__date-input"
                     type="datetime-local"
                     value={editingDeadline}
                     onChange={(e) => setEditingDeadline(e.target.value)}
                   />
 
-                  <div className="buttons-priority">
-                    <button
-                      className={`button ${task.priority === "low" ? "button-active" : ""}`}
-                      onClick={() =>
-                        setTasks(tasks.map(t =>
-                          t.id === task.id ? { ...t, priority: "low" } : t
-                        ))
-                      }
-                    >
-                      low
-                    </button>
+                  <div className="task-form__buttons-container">
+                    <div className="task-form__buttons">
+                      <button
+                        className={`button ${task.priority === "low" ? "button--active" : ""}`}
+                        onClick={() =>
+                          setTasks(tasks.map(t =>
+                            t.id === task.id ? { ...t, priority: "low" } : t
+                          ))
+                        }
+                      >
+                        low
+                      </button>
+
+                      <button
+                        className={`button ${task.priority === "medium" ? "button--active" : ""}`}
+                        onClick={() =>
+                          setTasks(tasks.map(t =>
+                            t.id === task.id ? { ...t, priority: "medium" } : t
+                          ))
+                        }
+                      >
+                        medium
+                      </button>
+
+                      <button
+                        className={`button ${task.priority === "high" ? "button--active" : ""}`}
+                        onClick={() =>
+                          setTasks(tasks.map(t =>
+                            t.id === task.id ? { ...t, priority: "high" } : t
+                          ))
+                        }
+                      >
+                        high
+                      </button>
+                    </div>
 
                     <button
-                      className={`button ${task.priority === "medium" ? "button-active" : ""}`}
-                      onClick={() =>
-                        setTasks(tasks.map(t =>
-                          t.id === task.id ? { ...t, priority: "medium" } : t
-                        ))
-                      }
+                      className="button-main"
+                      onClick={() => saveEdit(task.id)}
                     >
-                      medium
-                    </button>
-
-                    <button
-                      className={`button ${task.priority === "high" ? "button-active" : ""}`}
-                      onClick={() =>
-                        setTasks(tasks.map(t =>
-                          t.id === task.id ? { ...t, priority: "high" } : t
-                        ))
-                      }
-                    >
-                      high
+                      save
                     </button>
                   </div>
-
-                  <button className="button-main" onClick={() => saveEdit(task.id)}>save</button>
                 </>
               )}
             </li>
           ))}
         </ul>
       </div>
-    </div >
+    </div>
   );
 }
 

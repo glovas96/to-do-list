@@ -1,6 +1,62 @@
 @use "sass:color";
 
-// base
+// variables ======================================================================================================
+$color-base: #fff;
+$color-primary: #007bff;
+$color-primary-hover: color.scale($color-primary, $lightness: -20%);
+$color-border: #ddd;
+$color-bg-light: #f9f9f9;
+$color-bg-muted: #e8e8e88d;
+$color-text-muted: #666;
+
+// priority
+$color-priority-low-bg: #e6f4ea;
+$color-priority-low-text: #2e7d32;
+
+$color-priority-medium-bg: #fff8e1;
+$color-priority-medium-text: #f9a825;
+
+$color-priority-high-bg: #ffebee;
+$color-priority-high-text: #c62828;
+
+// deadline
+$color-deadline-expired-bg: #ffebee;
+$color-deadline-expired-text: #c62828;
+
+// mixins ======================================================================================================
+@mixin input-style {
+  display: block;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background: $color-base;
+  font-size: 1rem;
+  border: 1px solid $color-border;
+
+  &:hover {
+    border-color: $color-primary;
+  }
+
+  &:focus {
+    outline: none;
+    border: 2px solid $color-primary;
+  }
+}
+
+@mixin card-style($radius: 8px, $padding: 0.5rem 1rem) {
+  padding: $padding;
+  border-radius: $radius;
+  background: $color-base;
+  border: 1px solid $color-border;
+}
+
+@mixin badge-style($radius: 6px, $padding: 0.2rem 0.6rem) {
+  padding: $padding;
+  border-radius: $radius;
+  background: $color-base;
+  border: 1px solid $color-border;
+}
+
+// base ======================================================================================================
 * {
   box-sizing: border-box;
   margin: 0;
@@ -8,7 +64,7 @@
 }
 
 body {
-  background-color: #e8e8e88d;
+  background-color: $color-bg-muted;
 }
 
 .container {
@@ -22,96 +78,104 @@ body {
   padding: 1rem;
 }
 
-// task
-.task {
+// buttons ======================================================================================================
+.button {
+  flex: 1;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  background: $color-base;
+  font-size: 0.9rem;
+  border: 1px solid $color-border;
+
+  &:hover {
+    border-color: $color-primary;
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  &--active {
+    border: 2px solid $color-primary;
+  }
+
+}
+
+.button-main {
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  background: $color-primary;
+  font-size: 1rem;
+  color: $color-base;
+  border: 1px solid $color-border;
+
+  &:hover {
+    background: $color-primary-hover;
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+// task-form ======================================================================================================
+.task-form {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   margin-bottom: 1rem;
   padding: 1rem;
   border-radius: 8px;
-  background: #f9f9f9;
-  border: 1px solid #ddd;
+  background: $color-bg-light;
+  border: 1px solid $color-border;
+
+  &__textarea {
+    min-height: 100px;
+    resize: vertical;
+    @include input-style;
+  }
+
+  &__date-input {
+    @include input-style;
+  }
+
+  &__buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
 }
 
-.textarea {
-  display: block;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  background: #fff;
-  font-size: 1rem;
-  border: 1px solid #ddd;
-  min-height: 100px;
-  resize: vertical;
-}
-
-.textarea:hover {
-  border-color: #007bff;
-}
-
-.textarea:focus {
-  outline: none;
-  border: 2px solid #007bff;
-}
-
-.date-input {
-  display: block;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  background: #fff;
-  font-size: 1rem;
-  border: 1px solid #ddd;
-}
-
-.date-input:hover {
-  border-color: #007bff;
-}
-
-.date-input:focus {
-  outline: none;
-  border: 2px solid #007bff;
-}
-
-.buttons-priority {
-  display: flex;
-  gap: 0.5rem;
-}
-
-// filter
+// filter ======================================================================================================
 .filter {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  position: sticky;
+  top: 1rem;
   padding: 1rem;
   border-radius: 8px;
-  background: #f9f9f9;
-  border: 1px solid #ddd;
+  background: $color-bg-light;
+  border: 1px solid $color-border;
+
+  &__buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  &__search-input {
+    @include input-style;
+  }
 }
 
-.buttons-status {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.search-input {
-  display: block;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  background: #fff;
-  font-size: 1rem;
-  border: 1px solid #ddd;
-}
-
-.search-input:hover {
-  border-color: #007bff;
-}
-
-.search-input:focus {
-  outline: none;
-  border: 2px solid #007bff;
-}
-
-// counter
+// counter ======================================================================================================
 .counter {
   display: flex;
   flex-direction: column;
@@ -119,29 +183,24 @@ body {
   margin-bottom: 1rem;
   padding: 1rem;
   border-radius: 8px;
-  background: #f9f9f9;
-  border: 1px solid #ddd;
+  background: $color-bg-light;
+  border: 1px solid $color-border;
+
+  &__list {
+    display: flex;
+    justify-content: space-around;
+    gap: 0.5rem;
+    @include card-style(8px, 0.5rem 1rem);
+  }
+
+  &__item {
+    display: inline-block;
+    text-align: center;
+    @include badge-style(6px, 0.2rem 0.6rem);
+  }
 }
 
-.counter-list {
-  display: flex;
-  justify-content: space-around;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  background: #fff;
-  border: 1px solid #ddd;
-}
-
-.counter-item {
-  display: inline-block;
-  text-align: center;
-  padding: 0.2rem 0.6rem;
-  border-radius: 6px;
-  background: #fff;
-  border: 1px solid #ddd;
-}
-
+// task-list ======================================================================================================
 .task-list {
   display: flex;
   flex-direction: column;
@@ -149,138 +208,68 @@ body {
   list-style: none;
 }
 
-// item
-.item {
+.task-item {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   padding: 1rem;
   border-radius: 8px;
-  background: #f9f9f9;
-  border: 1px solid #ddd;
+  background: $color-bg-light;
+  border: 1px solid $color-border;
+
+  &--completed {
+    background: $color-bg-muted;
+    color: $color-text-muted;
+  }
+
+  &__title {
+    display: inline-block;
+    font-size: 1rem;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    @include card-style(8px, 0.5rem 1rem);
+  }
+
+  &__header {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  &__label {
+    display: inline-block;
+    font-size: 0.85rem;
+    @include badge-style(6px, 0.2rem 0.6rem);
+
+    &--low {
+      background: $color-priority-low-bg;
+      color: $color-priority-low-text;
+    }
+
+    &--medium {
+      background: $color-priority-medium-bg;
+      color: $color-priority-medium-text;
+    }
+
+    &--high {
+      background: $color-priority-high-bg;
+      color: $color-priority-high-text;
+    }
+  }
+
+  &__deadline {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: $color-text-muted;
+    @include badge-style(6px, 0.2rem 0.6rem);
+
+    &--expired {
+      background: $color-deadline-expired-bg;
+      color: $color-deadline-expired-text;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
 }
-
-.item-completed {
-  background: #e8e8e88d;
-  color: #666;
-}
-
-.item-title {
-  display: inline-block;
-  font-size: 1rem;
-  overflow-wrap: break-word;
-  white-space: pre-wrap;
-
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  background: #fff;
-  border: 1px solid #ddd;
-}
-
-.item-header {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.item-label-low {
-  display: inline-block;
-  font-size: 0.85rem;
-  padding: 0.2rem 0.6rem;
-  border-radius: 6px;
-  background: #fff;
-  border: 1px solid #ddd;
-  background: #e6f4ea;
-  color: #2e7d32;
-}
-
-.item-label-medium {
-  display: inline-block;
-  font-size: 0.85rem;
-  padding: 0.2rem 0.6rem;
-  border-radius: 6px;
-  background: #fff;
-  border: 1px solid #ddd;
-  background: #fff8e1;
-  color: #f9a825;
-}
-
-.item-label-high {
-  display: inline-block;
-  font-size: 0.85rem;
-  padding: 0.2rem 0.6rem;
-  border-radius: 6px;
-  background: #fff;
-  border: 1px solid #ddd;
-  background: #ffebee;
-  color: #c62828;
-}
-
-.item-deadline {
-  display: inline-block;
-  font-size: 0.85rem;
-  color: #666;
-  padding: 0.2rem 0.6rem;
-  border-radius: 6px;
-  background: #fff;
-  border: 1px solid #ddd;
-}
-
-.item-deadline-expired {
-  background: #ffebee;
-  color: #c62828;
-}
-
-.buttons-action {
-  display: flex;
-  gap: 0.5rem;
-}
-
-// button
-.button {
-  flex: 1;
-  cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 8px;
-  background: #fff;
-  font-size: 0.9rem;
-  border: 1px solid #ddd;
-}
-
-.button:hover {
-  border-color: #007bff;
-}
-
-.button:active {
-  transform: scale(0.97);
-}
-
-.button-active {
-  flex: 1;
-  cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 8px;
-  background: #fff;
-  font-size: 0.9rem;
-  border: 2px solid #007bff;
-}
-
-.button-main {
-  cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 8px;
-  background: #007bff;
-  font-size: 1rem;
-  color: #fff;
-  border: 1px solid #ddd;
-}
-
-.button-main:hover {
-  background: color.scale(#007bff, $lightness: -20%);
-}
-
-.button-main:active {
-  transform: scale(0.97);
-}
-
-
-
