@@ -279,6 +279,29 @@ body {
   .container {
     flex-direction: column;
   }
+
+  .task-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    align-items: start;
+    gap: 0.5rem 1rem;
+
+    &__textarea {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    &__date-input {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    &__buttons-container {
+      grid-column: 2;
+      grid-row: 1;
+    }
+  }
 }
 
 @media (max-width: 576px) {
