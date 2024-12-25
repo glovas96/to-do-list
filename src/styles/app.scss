@@ -302,6 +302,31 @@ body {
       grid-row: 1;
     }
   }
+
+  .filter {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    align-items: start;
+    gap: 0.5rem 1rem;
+
+    &__buttons {
+      &--status {
+        grid-column: 2;
+        grid-row: 1;
+      }
+
+      &--priority {
+        grid-column: 2;
+        grid-row: 2;
+      }
+    }
+
+    &__search-input {
+      grid-column: 1;
+      grid-row: 1;
+    }
+  }
 }
 
 @media (max-width: 576px) {
