@@ -1,0 +1,43 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+// buttons ======================================================================================================
+.button {
+  flex: 1;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  background: $color-base;
+  font-size: 0.9rem;
+  border: 1px solid $color-border;
+
+  &:hover {
+    border-color: $color-primary;
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  &--active {
+    border: 2px solid $color-primary;
+  }
+}
+
+.button-main {
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  background: $color-primary;
+  font-size: 1rem;
+  color: $color-base;
+  border: 1px solid $color-border;
+
+  &:hover {
+    background: $color-primary-hover;
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+}

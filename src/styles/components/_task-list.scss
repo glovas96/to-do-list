@@ -1,0 +1,76 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+// task-list ======================================================================================================
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  list-style: none;
+}
+
+.task-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background: $color-bg-light;
+  border: 1px solid $color-border;
+
+  &--completed {
+    background: $color-bg-muted;
+    color: $color-text-muted;
+  }
+
+  &__title {
+    display: inline-block;
+    font-size: 1rem;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    @include card-style(8px, 0.5rem 1rem);
+  }
+
+  &__header {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  &__label {
+    display: inline-block;
+    font-size: 0.85rem;
+    @include badge-style(6px, 0.2rem 0.6rem);
+
+    &--low {
+      background: $color-priority-low-bg;
+      color: $color-priority-low-text;
+    }
+
+    &--medium {
+      background: $color-priority-medium-bg;
+      color: $color-priority-medium-text;
+    }
+
+    &--high {
+      background: $color-priority-high-bg;
+      color: $color-priority-high-text;
+    }
+  }
+
+  &__deadline {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: $color-text-muted;
+    @include badge-style(6px, 0.2rem 0.6rem);
+
+    &--expired {
+      background: $color-deadline-expired-bg;
+      color: $color-deadline-expired-text;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+}

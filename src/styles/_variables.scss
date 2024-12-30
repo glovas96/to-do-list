@@ -1,0 +1,24 @@
+@use "sass:color";
+
+// variables ======================================================================================================
+$color-base: #fff;
+$color-primary: #007bff;
+$color-primary-hover: color.scale($color-primary, $lightness: -20%);
+$color-border: #ddd;
+$color-bg-light: #f9f9f9;
+$color-bg-muted: #e8e8e88d;
+$color-text-muted: #666;
+
+// priority
+$color-priority-low-bg: #e6f4ea;
+$color-priority-low-text: #2e7d32;
+
+$color-priority-medium-bg: #fff8e1;
+$color-priority-medium-text: #f9a825;
+
+$color-priority-high-bg: #ffebee;
+$color-priority-high-text: #c62828;
+
+// deadline
+$color-deadline-expired-bg: #ffebee;
+$color-deadline-expired-text: #c62828;

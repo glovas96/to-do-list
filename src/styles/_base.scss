@@ -1,0 +1,23 @@
+@use "@/styles/variables" as *;
+
+// base ======================================================================================================
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: $color-bg-muted;
+}
+
+.container {
+  display: flex;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.column {
+  flex: 1;
+  padding: 1rem;
+}

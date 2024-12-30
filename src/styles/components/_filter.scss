@@ -1,0 +1,24 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+// filter ======================================================================================================
+.filter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: sticky;
+  top: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background: $color-bg-light;
+  border: 1px solid $color-border;
+
+  &__buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  &__search-input {
+    @include input-style;
+  }
+}
