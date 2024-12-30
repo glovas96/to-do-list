@@ -375,5 +375,10 @@ body {
   .container {
     flex-direction: column;
   }
+
+  .counter {
+    position: sticky;
+    top: 1rem;
+  }
 }
 
