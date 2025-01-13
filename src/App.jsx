@@ -1,351 +1,94 @@
-import { useState, useEffect } from "react";
 import "./styles/app.scss";
+import TaskForm from "@/components/TaskForm";
+import FilterPanel from "@/components/FilterPanel";
+import CounterCard from "@/components/CounterCard";
+import TaskList from "@/components/TaskList";
+import useTasks from "@/hooks/useTasks";
 
 function App() {
-  // tasks state
-  const [tasks, setTasks] = useState(() => {
-    const saved = localStorage.getItem("tasks");
-    return saved ? JSON.parse(saved) : [];
-  });
+  const {
+    input,
+    setInput,
+    priorityInput,
+    setPriorityInput,
+    deadlineInput,
+    setDeadlineInput,
+    filter,
+    setFilter,
+    priorityFilter,
+    setPriorityFilter,
+    searchQuery,
+    setSearchQuery,
+    totalCount,
+    activeCount,
+    completedCount,
+    filteredTasks,
+    addTask,
+    toggleTask,
+    deleteTask,
+    startEdit,
+    editingId,
+    editingText,
+    setEditingText,
+    editingDeadline,
+    setEditingDeadline,
+    saveEdit,
+    clearCompleted,
+    updateTaskPriority,
+    isExpired,
+  } = useTasks();
 
-  // input state
-  const [input, setInput] = useState("");
-  const [priorityInput, setPriorityInput] = useState("low");
-  const [deadlineInput, setDeadlineInput] = useState("");
-  // filter state
-  const [filter, setFilter] = useState("all");
-  const [priorityFilter, setPriorityFilter] = useState("all");
-  // editing state
-  const [editingId, setEditingId] = useState(null);
-  const [editingText, setEditingText] = useState("");
-  const [editingDeadline, setEditingDeadline] = useState("");
-  // search input state
-  const [searchQuery, setSearchQuery] = useState("");
-
-  // save tasks to LocalStorage
-  useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]);
-
-  // counters
-  const totalCount = tasks.length;
-  const activeCount = tasks.filter((t) => !t.completed).length;
-  const completedCount = tasks.filter((t) => t.completed).length;
-
-  // add task
-  const addTask = () => {
-    if (input.trim() === "") return;
-    setTasks([
-      ...tasks,
-      {
-        id: Date.now(),
-        text: input,
-        completed: false,
-        priority: priorityInput,
-        deadline: deadlineInput
-      }
-    ]);
-    setInput("");
-    setDeadlineInput("");
-  };
-
-  // toggle task status
-  const toggleTask = (id) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      )
-    );
-  };
-
-  // delete task
-  const deleteTask = (id) => {
-    setTasks(tasks.filter((task) => task.id !== id));
-  };
-
-  // start editing mode
-  const startEdit = (task) => {
-    setEditingId(task.id);
-    setEditingText(task.text);
-    setEditingDeadline(task.deadline || "");
-  };
-
-  // save edited text
-  const saveEdit = (id) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === id
-          ? { ...task, text: editingText, deadline: editingDeadline }
-          : task
-      )
-    );
-    setEditingId(null);
-    setEditingText("");
-    setEditingDeadline("");
-  };
-
-  // clear all completed tasks
-  const clearCompleted = () => {
-    setTasks(tasks.filter((task) => !task.completed));
-  };
-
-  // filter by status + search query + priority
-  const filteredTasks = tasks.filter((task) => {
-    const matchesFilter =
-      filter === "active"
-        ? !task.completed
-        : filter === "completed"
-          ? task.completed
-          : true;
-
-    const matchesSearch = task.text
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-
-    const matchesPriority =
-      priorityFilter === "all" ? true : task.priority === priorityFilter;
-
-    return matchesFilter && matchesSearch && matchesPriority;
-  });
-
-  // function to check if deadline is expired
-  const isExpired = (deadline) => {
-    if (!deadline) return false;
-    return new Date(deadline) < new Date();
-  };
+  const handleInputChange = value => setInput(value);
+  const handleDeadlineChange = value => setDeadlineInput(value);
+  const handlePriorityChange = value => setPriorityInput(value);
+  const handleFilterChange = value => setFilter(value);
+  const handlePriorityFilterChange = value => setPriorityFilter(value);
+  const handleSearchChange = value => setSearchQuery(value);
+  const handleEditingTextChange = value => setEditingText(value);
+  const handleEditingDeadlineChange = value => setEditingDeadline(value);
 
   return (
     <div className="container">
-      {/* column 1 */}
       <div className="column">
-        {/* task */}
-        <div className="task-form">
-          <textarea
-            className="task-form__textarea"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="enter task"
-          />
-
-          <input
-            className="task-form__date-input"
-            type="datetime-local"
-            value={deadlineInput}
-            onChange={(e) => setDeadlineInput(e.target.value)}
-          />
-
-          <div className="task-form__buttons-container">
-            <div className="task-form__buttons">
-              <button
-                className={`button ${priorityInput === "low" ? "button--active" : ""}`}
-                onClick={() => setPriorityInput("low")}
-              >
-                low
-              </button>
-              <button
-                className={`button ${priorityInput === "medium" ? "button--active" : ""}`}
-                onClick={() => setPriorityInput("medium")}
-              >
-                medium
-              </button>
-              <button
-                className={`button ${priorityInput === "high" ? "button--active" : ""}`}
-                onClick={() => setPriorityInput("high")}
-              >
-                high
-              </button>
-            </div>
-
-            <button className="button-main" onClick={addTask}>
-              add
-            </button>
-          </div>
-        </div>
-
-        {/* filter */}
-        <div className="filter">
-          <div className="filter__buttons filter__buttons--status">
-            <button
-              className={`button ${filter === "all" ? "button--active" : ""}`}
-              onClick={() => setFilter("all")}
-            >
-              all
-            </button>
-            <button
-              className={`button ${filter === "active" ? "button--active" : ""}`}
-              onClick={() => setFilter("active")}
-            >
-              active
-            </button>
-            <button
-              className={`button ${filter === "completed" ? "button--active" : ""}`}
-              onClick={() => setFilter("completed")}
-            >
-              done
-            </button>
-          </div>
-
-          <div className="filter__buttons filter__buttons--priority">
-            <button
-              className={`button ${priorityFilter === "all" ? "button--active" : ""}`}
-              onClick={() => setPriorityFilter("all")}
-            >
-              all
-            </button>
-            <button
-              className={`button ${priorityFilter === "low" ? "button--active" : ""}`}
-              onClick={() => setPriorityFilter("low")}
-            >
-              low
-            </button>
-            <button
-              className={`button ${priorityFilter === "medium" ? "button--active" : ""}`}
-              onClick={() => setPriorityFilter("medium")}
-            >
-              medium
-            </button>
-            <button
-              className={`button ${priorityFilter === "high" ? "button--active" : ""}`}
-              onClick={() => setPriorityFilter("high")}
-            >
-              high
-            </button>
-          </div>
-
-          <input
-            type="text"
-            className="filter__search-input"
-            placeholder="search task"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
+        <TaskForm
+          inputValue={input}
+          onInputChange={handleInputChange}
+          deadlineValue={deadlineInput}
+          onDeadlineChange={handleDeadlineChange}
+          priorityValue={priorityInput}
+          onPriorityChange={handlePriorityChange}
+          onSubmit={addTask}
+        />
+        <FilterPanel
+          filter={filter}
+          onFilterChange={handleFilterChange}
+          priorityFilter={priorityFilter}
+          onPriorityFilterChange={handlePriorityFilterChange}
+          searchQuery={searchQuery}
+          onSearchChange={handleSearchChange}
+        />
       </div>
-
-      {/* column 2 */}
       <div className="column">
-        {/* counter */}
-        <div className="counter">
-          <div className="counter__list">
-            <span className="counter__item">total: {totalCount}</span>
-            <span className="counter__item">active: {activeCount}</span>
-            <span className="counter__item">completed: {completedCount}</span>
-          </div>
-
-          <button className="button-main" onClick={clearCompleted}>
-            delete completed
-          </button>
-        </div>
-
-        {/* task list */}
-        <ul className="task-list">
-          {filteredTasks.map((task) => (
-            <li
-              className={`task-item ${task.completed ? "task-item--completed" : ""}`}
-              key={task.id}
-            >
-              {editingId !== task.id ? (
-                <>
-                  <p className="task-item__title">{task.text}</p>
-
-                  <div className="task-item__header">
-                    <span className={`task-item__label task-item__label--${task.priority}`}>
-                      {task.priority}
-                    </span>
-
-                    {task.deadline && (
-                      <span
-                        className={`task-item__deadline ${isExpired(task.deadline) ? "task-item__deadline--expired" : ""}`}
-                      >
-                        {new Date(task.deadline).toLocaleString()}
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="task-item__buttons">
-                    <button
-                      className="button"
-                      onClick={() => toggleTask(task.id)}
-                    >
-                      done
-                    </button>
-                    <button
-                      className="button"
-                      onClick={() => startEdit(task)}
-                    >
-                      edit
-                    </button>
-                    <button
-                      className="button"
-                      onClick={() => deleteTask(task.id)}
-                    >
-                      delete
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <textarea
-                    className="task-form__textarea"
-                    value={editingText}
-                    onChange={(e) => setEditingText(e.target.value)}
-                  />
-
-                  <input
-                    className="task-form__date-input"
-                    type="datetime-local"
-                    value={editingDeadline}
-                    onChange={(e) => setEditingDeadline(e.target.value)}
-                  />
-
-                  <div className="task-form__buttons-container">
-                    <div className="task-form__buttons">
-                      <button
-                        className={`button ${task.priority === "low" ? "button--active" : ""}`}
-                        onClick={() =>
-                          setTasks(tasks.map(t =>
-                            t.id === task.id ? { ...t, priority: "low" } : t
-                          ))
-                        }
-                      >
-                        low
-                      </button>
-
-                      <button
-                        className={`button ${task.priority === "medium" ? "button--active" : ""}`}
-                        onClick={() =>
-                          setTasks(tasks.map(t =>
-                            t.id === task.id ? { ...t, priority: "medium" } : t
-                          ))
-                        }
-                      >
-                        medium
-                      </button>
-
-                      <button
-                        className={`button ${task.priority === "high" ? "button--active" : ""}`}
-                        onClick={() =>
-                          setTasks(tasks.map(t =>
-                            t.id === task.id ? { ...t, priority: "high" } : t
-                          ))
-                        }
-                      >
-                        high
-                      </button>
-                    </div>
-
-                    <button
-                      className="button-main"
-                      onClick={() => saveEdit(task.id)}
-                    >
-                      save
-                    </button>
-                  </div>
-                </>
-              )}
-            </li>
-          ))}
-        </ul>
+        <CounterCard
+          total={totalCount}
+          active={activeCount}
+          completed={completedCount}
+          onClearCompleted={clearCompleted}
+        />
+        <TaskList
+          tasks={filteredTasks}
+          editingId={editingId}
+          editingText={editingText}
+          editingDeadline={editingDeadline}
+          onEditingTextChange={handleEditingTextChange}
+          onEditingDeadlineChange={handleEditingDeadlineChange}
+          onToggle={toggleTask}
+          onStartEdit={startEdit}
+          onDelete={deleteTask}
+          onSaveEdit={saveEdit}
+          onEditPriority={updateTaskPriority}
+          isExpired={isExpired}
+        />
       </div>
     </div>
   );
