@@ -1,16 +1,36 @@
-# React + Vite
+## To-do List SPA
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Simple single-page todo list built with React (Vite) that persists data in `localStorage`.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React 19 + Vite (bundler + dev server)
+- Custom hook `useTasks` for state instead of Redux
+- `localStorage` persistence via `taskStorage` service
+- SCSS modules composed through `src/styles/app.scss`
+- ESLint + Prettier for linting/formatting, bundled via custom config
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Task creation with deadline, priority, and local state persistence.
+- Filters for status, priority, and text search.
+- Task editing mode with inline textarea and priority pickup.
+- Counters for total/active/completed tasks, plus batch “delete completed”.
+- Responsive layout managed via SCSS partials.
 
-## Expanding the ESLint configuration
+## Architecture
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `src/App.jsx` serves as the layout/root component that pulls in styles and passes data/handlers to the child components.
+- `src/hooks/useTasks.js` is the main custom hook that keeps task/filter/edit states, syncs with `localStorage`, and exposes counts/operations.
+- `src/services/taskStorage.js` handles serialization/deserialization for persistence.
+- `src/utils/taskFilters.js` contains the helpers that apply status/priority/search filters.
+- `src/components/` hosts presentational pieces: task form, filters, counter, and task list/card.
+- `src/styles/` contains modular SCSS partials that are composed via `src/styles/app.scss`.
+
+## Scripts
+
+- `npm run dev` – starts the Vite dev server  
+- `npm run build` – creates a production build  
+- `npm run preview` – serves the production bundle locally  
+- `npm run lint` – runs ESLint (includes Prettier rules)  
+- `npm run format` – formats `src/**/*.js|jsx|scss` files via Prettier
